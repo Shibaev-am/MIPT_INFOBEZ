@@ -1,0 +1,16 @@
+{% load static %}<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Личный бюджет{% endblock %}</title><link rel="stylesheet" href="{% static 'style.css' %}">
+<script src="{% static 'app.js' %}" defer></script></head>
+<body><a class="skip" href="#content">Перейти к содержимому</a>
+<header class="topbar"><a class="brand" href="{% url 'dashboard' %}"><span class="brand-icon">₽</span> Личный бюджет</a>
+{% if user.is_authenticated %}<div class="account"><span>{{ user.username }}</span><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="text-button">Выйти</button></form></div>{% endif %}</header>
+{% if user.is_authenticated %}<nav aria-label="Основная навигация">
+<a href="{% url 'dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}aria-current="page"{% endif %}>Обзор</a>
+<a href="{% url 'transactions' %}" {% if request.resolver_match.url_name == 'transactions' %}aria-current="page"{% endif %}>Операции</a>
+<a href="{% url 'categories' %}" {% if request.resolver_match.url_name == 'categories' %}aria-current="page"{% endif %}>Категории</a>
+<a href="{% url 'report' %}" {% if request.resolver_match.url_name == 'report' %}aria-current="page"{% endif %}>Отчёты</a>
+<a href="{% url 'limits' %}" {% if request.resolver_match.url_name == 'limits' %}aria-current="page"{% endif %}>Лимиты</a>
+</nav>{% endif %}
+<main id="content">{% for message in messages %}<div class="notice {{ message.tags }}" role="status">{{ message }}</div>{% endfor %}{% block content %}{% endblock %}</main>
+<footer>Личный бюджет · Учёт в рублях · Данные на вашем компьютере</footer></body></html>

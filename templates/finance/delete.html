@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% load money %}{% block content %}<div class="narrow"><h1>Удалить {{ label }}?</h1><section class="panel">
+{% if object.name %}<p>{{ object.name }}</p>{% else %}<p>{{ object.category.name }} · {{ object.amount_cents|money }}</p><p class="muted">{% if object.date %}{{ object.date|date:'d.m.Y' }}{% else %}{{ object.month|date:'F Y' }}{% endif %}</p>{% endif %}
+<p>Это действие нельзя отменить.</p><form method="post">{% csrf_token %}<div class="form-actions"><button class="button danger">Удалить</button><a href="{{ cancel_url }}">Отмена</a></div></form></section></div>{% endblock %}

@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.sqlite3-*
+data/
+backups/
+staticfiles/
+.work_finance/
+*.docx
+.DS_Store
+.coverage
+htmlcov/

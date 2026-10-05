@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% load money %}{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Мои финансы</p><h1>Обзор</h1><p class="muted">{{ month|date:'F Y' }} · Доходы, расходы и планы на месяц</p></div><a class="button" href="{% url 'transaction_create' %}">+ Добавить операцию</a></div>
+<div class="stats"><section class="stat main-stat"><p>Общий баланс</p><strong>{{ overall.balance|money }}</strong><small>За всё время</small></section>
+<section class="stat"><p>Доходы за месяц</p><strong class="income">{{ current.income|money }}</strong><small>Поступления в этом месяце</small></section>
+<section class="stat"><p>Расходы за месяц</p><strong>{{ current.expense|money }}</strong><small>Траты в этом месяце</small></section></div>
+<div class="two-columns"><section class="panel"><div class="section-heading"><h2>Последние операции</h2><a href="{% url 'transactions' %}">Все операции</a></div>
+{% if recent %}<ul class="operation-list">{% for item in recent %}<li><div><a href="{% url 'transaction_edit' item.pk %}">{{ item.category.name }}</a><small>{{ item.date|date:'d.m.Y' }}{% if item.comment %} · {{ item.comment|truncatechars:45 }}{% endif %}</small></div><strong class="{{ item.kind }}">{% if item.kind == 'income' %}+{% else %}−{% endif %}{{ item.amount_cents|money }}</strong></li>{% endfor %}</ul>
+{% else %}<div class="empty"><h3>Начните с первой записи</h3><p>Добавьте доход или расход, и здесь появится история операций.</p><a href="{% url 'transaction_create' %}">Добавить операцию</a></div>{% endif %}</section>
+<section class="panel"><div class="section-heading"><h2>Лимиты месяца</h2><a href="{% url 'limits' %}">Все лимиты</a></div>
+{% for row in limits %}<div class="limit-row"><h3>{{ row.limit.category.name }}</h3><p>{{ row.spent|money }} <span class="muted">из {{ row.limit.amount_cents|money }}</span></p><progress value="{{ row.percent }}" max="100" aria-label="Использование лимита {{ row.limit.category.name }}"></progress>
+{% if row.excess %}<p class="warning">Превышение на {{ row.excess|money }}</p>{% elif row.reached %}<p class="warning">Лимит достигнут</p>{% else %}<small class="muted">Осталось {{ row.remaining|money }}</small>{% endif %}</div>
+{% empty %}<div class="empty"><h3>Траты под контролем</h3><p>Задайте бюджет для категории, чтобы следить за расходами.</p><a href="{% url 'limit_create' %}">Установить лимит</a></div>{% endfor %}</section></div>{% endblock %}

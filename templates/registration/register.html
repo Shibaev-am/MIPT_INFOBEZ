@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block title %}Регистрация — Личный бюджет{% endblock %}{% block content %}
+<section class="auth-card"><p class="eyebrow">Начало работы</p><h1>Создать учётную запись</h1><p class="muted">Для регистрации нужны только логин и пароль.</p>
+<form method="post">{% csrf_token %}{% include 'finance/fields.html' %}<button class="button full">Зарегистрироваться</button></form>
+<p class="auth-link">Уже зарегистрированы? <a href="{% url 'login' %}">Войти</a></p></section>{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block title %}{{ title }} — Личный бюджет{% endblock %}{% block content %}
+<div class="narrow"><a class="back" href="{{ cancel_url }}">← Назад</a><h1>{{ title }}</h1>
+<section class="panel"><form method="post">{% csrf_token %}{% include 'finance/fields.html' %}
+{% if form.category %}<p class="help">Не нашли нужную категорию? <a href="{% url 'category_create' %}">Создать категорию</a></p>{% endif %}
+<div class="form-actions"><button class="button">Сохранить</button><a href="{{ cancel_url }}">Отмена</a></div></form></section></div>
+{% if category_data %}{{ category_data|json_script:'category-kinds' }}{% endif %}{% endblock %}

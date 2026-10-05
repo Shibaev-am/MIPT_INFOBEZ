@@ -1,0 +1,12 @@
+.git
+.venv
+.env
+.env.*
+__pycache__
+*.pyc
+*.sqlite3*
+data
+backups
+staticfiles
+.work_finance
+*.docx
